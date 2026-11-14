@@ -13,10 +13,13 @@ static int FD = -1;
 static int WR = -1;
 static int RD = -1;
 
-int openTemp() {
+int openTemp(int zone) {
 
   // /build/learn/w2/test.txt
-  FD = open("/sys/class/thermal/thermal_zone0/temp", O_RDONLY);
+  char path[50];
+  snprintf(path, sizeof(path), "/sys/class/thermal/thermal_zone%d/temp", zone);
+
+  FD = open(path, O_RDONLY);
   if (FD == -1) {
     perror("open error in openTemp()");
     return -1;

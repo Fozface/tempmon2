@@ -12,47 +12,30 @@
 /*returning 1 should be done frome main, that indicate my function failed.
  * return -1 comes from system functions  */
 int main(int argc, char *argv[]) {
+
   int wr, bytes, chk, setStart, pr, tempInt, tempDec;
-
   long temp = 0;
-  long count;
 
-  char *endptr = 0;
   char output[10];
   char sign[2];
   sign[1] = '\0';
   long num, sec, zone;
   char *out = 0;
   int OP = parseOp(argc, argv, &num, &sec, &out, &zone);
-  if (OP) {
 
+  if (OP == HELP) {
+    char helpmsg[] = "help msg";
+    wr = write(STDERR_FILENO, helpmsg, sizeof(helpmsg) - 1);
+    checkWrite(wr, "help msg");
     return 1;
   }
-  if (argc != 2) {
-    errno = EINVAL;
-    perror("main requires a int to run");
-    return 1;
-  }
-  // if here = ;endptr doesnt = null then something other than a number
-  // was entered, if  argc != 2 then no arg was entered or more than 1 arg
-  // was entered, the file name is always arg 0. if endptr == argv[1] no
-  // conversion was done by strtol
-  errno = 0;
-  count = strtol(argv[1], &endptr, 10);
-  if (!(*endptr == '\0') || (endptr == argv[1]) || (count < 0) ||
-      (errno != 0)) {
-    errno = (errno == 0) ? EINVAL : errno;
-    perror("invalid argument for main");
-    return 1;
-  }
-
-  if (openTemp() != 0) {
+  if (openTemp(zone) != 0) {
     char tempCallEr[] = "openTemp call failed\n";
     wr = write(STDERR_FILENO, tempCallEr, sizeof(tempCallEr) - 1);
-    chk = checkWrite(wr, "openTemp");
+    checkWrite(wr, "openTemp");
     return 1;
   }
-  for (int i = 0; i < count; i++) {
+  for (int i = 0; i < num; i++) {
     if (readTemp(&temp, &bytes)) {
       return 1;
     }
