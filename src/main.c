@@ -31,10 +31,9 @@ int main(int argc, char *argv[]) {
     return 1;
   }
   if (OP == NOARGS) {
-    char noarg[] = "no argumenst detected\n-h for help\n";
-    wr = write(STDOUT_FILENO, noarg, sizeof(noarg) - 1);
-    checkWrite(wr, "help msg");
-    return 1;
+    num = 0;
+    sec = 1;
+    zone = 0;
   }
   if (OP == INVOP) {
     return 1;

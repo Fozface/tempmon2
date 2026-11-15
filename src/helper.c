@@ -19,14 +19,13 @@ int checkWrite(int wr, char *from) {
 int parseOp(int argc, char *argv[], long *num, long *sec, char **out,
             long *zone) {
   int exitVal = 0, op = 0;
-  *num = 0;
-  *sec = 1;
   char *endptr;
 
   do {
 
     switch (op) {
     case 'n':
+      exitVal = VALID;
       // number of times to run tempmon
       errno = 0;
       *num = strtol(optarg, &endptr, 10);
@@ -40,6 +39,7 @@ int parseOp(int argc, char *argv[], long *num, long *sec, char **out,
       break;
 
     case 'i':
+      exitVal = VALID;
       // seconds between readings, min is 1,
       errno = 0;
       *sec = strtol(optarg, &endptr, 10);
@@ -52,11 +52,13 @@ int parseOp(int argc, char *argv[], long *num, long *sec, char **out,
       break;
 
     case 'o':
+      exitVal = VALID;
       // make out point to the address of the output argument
       *out = optarg;
       break;
 
     case 'z':
+      exitVal = VALID;
       errno = 0;
       *zone = strtol(optarg, &endptr, 10);
       if (!(*endptr == '\0') || (endptr == argv[1]) || (*zone < 0) ||

@@ -7,5 +7,6 @@ int parseOp(int, char *[], long *, long *, char **, long *);
 #define NOARGS 1
 #define HELP 2
 #define INVOP 3
+#define VALID 0
 
 #endif
