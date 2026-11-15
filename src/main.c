@@ -36,6 +36,9 @@ int main(int argc, char *argv[]) {
     checkWrite(wr, "help msg");
     return 1;
   }
+  if (OP == INVOP) {
+    return 1;
+  }
   if (openTemp(zone) != 0)
     return 1;
   for (int i = 0; i < num; i++) {
