@@ -21,7 +21,7 @@ int openTemp(int zone) {
 
   FD = open(path, O_RDONLY);
   if (FD == -1) {
-    perror("open error in openTemp()");
+    perror(path);
     return -1;
   }
   return 0;

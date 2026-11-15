@@ -24,17 +24,20 @@ int main(int argc, char *argv[]) {
   int OP = parseOp(argc, argv, &num, &sec, &out, &zone);
 
   if (OP == HELP) {
-    char helpmsg[] = "help msg";
-    wr = write(STDERR_FILENO, helpmsg, sizeof(helpmsg) - 1);
+    char helpmsg[] =
+        "-n count\n-i interval(1-3600)\n-o output file\n-z zone\n-h help\n";
+    wr = write(STDOUT_FILENO, helpmsg, sizeof(helpmsg) - 1);
     checkWrite(wr, "help msg");
     return 1;
   }
-  if (openTemp(zone) != 0) {
-    char tempCallEr[] = "openTemp call failed\n";
-    wr = write(STDERR_FILENO, tempCallEr, sizeof(tempCallEr) - 1);
-    checkWrite(wr, "openTemp");
+  if (OP == NOARGS) {
+    char noarg[] = "no argumenst detected\n-h for help\n";
+    wr = write(STDOUT_FILENO, noarg, sizeof(noarg) - 1);
+    checkWrite(wr, "help msg");
     return 1;
   }
+  if (openTemp(zone) != 0)
+    return 1;
   for (int i = 0; i < num; i++) {
     if (readTemp(&temp, &bytes)) {
       return 1;
@@ -83,7 +86,7 @@ int main(int argc, char *argv[]) {
     if (setStart != 0) {
       return 1;
     }
-    sleep(1);
+    sleep(sec);
   }
   closeTemp();
   return 0;
