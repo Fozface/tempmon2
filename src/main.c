@@ -21,6 +21,11 @@ int main(int argc, char *argv[]) {
   sign[1] = '\0';
   long num, sec, zone;
   char *out = 0;
+  // set default values
+  num = 0;
+  sec = 1;
+  zone = 0;
+
   int OP = parseOp(argc, argv, &num, &sec, &out, &zone);
 
   if (OP == HELP) {
@@ -29,11 +34,6 @@ int main(int argc, char *argv[]) {
     wr = write(STDOUT_FILENO, helpmsg, sizeof(helpmsg) - 1);
     checkWrite(wr, "help msg");
     return 1;
-  }
-  if (OP == NOARGS) {
-    num = 0;
-    sec = 1;
-    zone = 0;
   }
   if (OP == INVOP) {
     return 1;
@@ -46,13 +46,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (bytes >= (int)sizeof(output)) {
-      char outbuff[] = "read bytes > output size\n";
-      wr = write(STDERR_FILENO, outbuff, sizeof(outbuff) - 1);
-      chk = checkWrite(wr, "bufSize");
-      if (chk == 1) {
-        closeTemp();
-        return 1;
-      }
+      fprintf(stderr, "\nread bytes > output size\n");
       closeTemp();
       return 1;
     }
@@ -68,14 +62,9 @@ int main(int argc, char *argv[]) {
         snprintf(output, sizeof(output), "%s%d.%d C\n", sign, tempInt, tempDec);
 
     if (pr >= (int)sizeof(output)) {
-      pr = sizeof(output) - 1;
-      char snpErr[] = "\nsnprintf truncated output\n";
-      wr = write(STDERR_FILENO, snpErr, sizeof(snpErr) - 1);
-      chk = checkWrite(wr, "snprtf");
-      if (chk == 1) {
-        closeTemp();
-        return 1;
-      }
+
+fprintf(stderr,"\nsnprintf truncated output\n");
+
     }
     wr = write(STDOUT_FILENO, output, pr);
     chk = checkWrite(wr, "printOut");

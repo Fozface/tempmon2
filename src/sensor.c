@@ -38,22 +38,16 @@ int readTemp(long *tempL, int *rd) {
   char buffer[8];
 
   if (FD == -1) {
-    char readError[] = "no file was opened\n";
-    WR = write(STDERR_FILENO, readError, sizeof(readError) - 1);
-    if (WR == -1) {
-      perror("write error in readTemp()");
-      return -1;
-    }
+    fprintf(stderr, "\nno file was opened\n");
     return -1;
   }
   // read() trys to read (sizeof(buffer)-1) bytes from the open file at
   // file descriptor FD, and returns the number of bytes read,
   RD = read(FD, buffer, sizeof(buffer) - 1);
-  if (RD == -1) {
-    closeTemp();
-    perror("read error in readTemp");
+  if (RD == -1){
+    fprintf(stderr, "\nno file was opened\n");
     return -1;
-  }
+  } 
   buffer[RD] = '\0';
   char *endarr = 0;
   errno = 0;

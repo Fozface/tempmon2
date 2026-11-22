@@ -29,7 +29,7 @@ int parseOp(int argc, char *argv[], long *num, long *sec, char **out,
       // number of times to run tempmon
       errno = 0;
       *num = strtol(optarg, &endptr, 10);
-      if (!(*endptr == '\0') || (endptr == argv[1]) || (*num < 0) ||
+      if (!(*endptr == '\0') || (endptr == argv[optind - 1]) || (*num < 0) ||
           (errno != 0)) {
         errno = (errno == 0) ? EINVAL : errno;
         perror("strtol error in num parse");
