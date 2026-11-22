@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (bytes >= (int)sizeof(output)) {
-      fprintf(stderr, "\nread bytes > output size\n");
+      fprintf(stderr, "read bytes > output size");
       closeTemp();
       return 1;
     }
@@ -62,9 +62,9 @@ int main(int argc, char *argv[]) {
         snprintf(output, sizeof(output), "%s%d.%d C\n", sign, tempInt, tempDec);
 
     if (pr >= (int)sizeof(output)) {
-
-fprintf(stderr,"\nsnprintf truncated output\n");
-
+      pr = sizeof(output) - 1;
+      fprintf(stderr, "\nsnprintf truncated output\n");
+      return 1;
     }
     wr = write(STDOUT_FILENO, output, pr);
     chk = checkWrite(wr, "printOut");

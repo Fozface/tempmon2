@@ -6,11 +6,12 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include <string.h>
+
 #include "helper.h"
 #include "sensor.h"
 
 static int FD = -1;
-static int WR = -1;
 static int RD = -1;
 
 int openTemp(int zone) {
@@ -45,7 +46,8 @@ int readTemp(long *tempL, int *rd) {
   // file descriptor FD, and returns the number of bytes read,
   RD = read(FD, buffer, sizeof(buffer) - 1);
   if (RD == -1){
-    fprintf(stderr, "\nno file was opened\n");
+    fprintf(stderr, "\nread error in readtemp\n%s",strerror(errno));
+    closeTemp();
     return -1;
   } 
   buffer[RD] = '\0';
