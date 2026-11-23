@@ -29,21 +29,19 @@ int parseOp(int argc, char *argv[], long *num, long *sec, char **out,
       // number of times to run tempmon
       errno = 0;
       *num = strtol(optarg, &endptr, 10);
-      if (!(*endptr == '\0') || (endptr == argv[optind - 1]) || (*num < 0) ||
+      if (!(*endptr == '\0') || (endptr == optarg) || (*num < 0) ||
           (errno != 0)) {
         errno = (errno == 0) ? EINVAL : errno;
         perror("strtol error in num parse");
         return 1;
       }
-
       break;
-
     case 'i':
       exitVal = VALID;
       // seconds between readings, min is 1,
       errno = 0;
       *sec = strtol(optarg, &endptr, 10);
-      if (!(*endptr == '\0') || (endptr == argv[1]) || (*sec < 1) ||
+      if (!(*endptr == '\0') || (endptr == optarg) || (*sec < 1) ||
           (errno != 0) || (*sec > 3600)) {
         errno = (errno == 0) ? EINVAL : errno;
         perror("invalid sec value, must be 1-3600");
@@ -61,7 +59,7 @@ int parseOp(int argc, char *argv[], long *num, long *sec, char **out,
       exitVal = VALID;
       errno = 0;
       *zone = strtol(optarg, &endptr, 10);
-      if (!(*endptr == '\0') || (endptr == argv[1]) || (*zone < 0) ||
+      if (!(*endptr == '\0') || (endptr == optarg) || (*zone < 0) ||
           (errno != 0)) {
         errno = (errno == 0) ? EINVAL : errno;
         perror("strtol zone error");

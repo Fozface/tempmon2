@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (bytes >= (int)sizeof(output)) {
-      fprintf(stderr, "read bytes > output size");
+      fprintf(stderr, "\nread bytes > output size\n");
       closeTemp();
       return 1;
     }

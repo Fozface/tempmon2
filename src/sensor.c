@@ -46,7 +46,7 @@ int readTemp(long *tempL, int *rd) {
   // file descriptor FD, and returns the number of bytes read,
   RD = read(FD, buffer, sizeof(buffer) - 1);
   if (RD == -1){
-    fprintf(stderr, "\nread error in readtemp\n%s",strerror(errno));
+    fprintf(stderr, "\nread error in readtemp\n%s\n",strerror(errno));
     closeTemp();
     return -1;
   } 
